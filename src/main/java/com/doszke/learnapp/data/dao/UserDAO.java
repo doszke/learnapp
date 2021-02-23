@@ -4,11 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 import java.util.Set;
 
 @Data
@@ -25,21 +26,21 @@ public class UserDAO implements Mappable {
 
     @Column
     @NotEmpty(message = "Your username cannot be empty. ")
-    @Length(min = 5, max = 20, message = "Your username needs to be at lest 5 characters long and cannot be longer than 20 characters. ")
+    @Size(min = 5, max = 20, message = "Your username needs to be at lest 5 characters long and cannot be longer than 20 characters. ")
     private String userName;
 
     @Column
     @Email(message = "Please provide a valid e-mail. ")
-    @NotEmpty(message = "E-mail is required. ")
+    @NotBlank(message = "E-mail is required. ")
     private String email;
 
     @Column
-    @Length(min = 8, max = 20, message = "Your password needs to be at lest 5 characters long and cannot be longer than 20 characters. ")
-    @NotEmpty(message = "Password is required. ")
+    @Size(min = 8, max = 20, message = "Your password needs to be at lest 5 characters long and cannot be longer than 20 characters. ")
+    @NotBlank(message = "Password is required. ")
     private String password;
 
     @Column
-    @NotEmpty(message = "Name is required. ")
+    @NotBlank(message = "Name is required. ")
     private String name;
 
     @Column

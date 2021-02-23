@@ -8,8 +8,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
@@ -34,25 +37,26 @@ public class LoginController {
     @GetMapping(value = "/registration")
     public ModelAndView registration(){
         ModelAndView modelAndView = new ModelAndView();
-        UserDAO user = new UserDAO();
-        modelAndView.addObject("user", user);
+        UserDAO userDAO = new UserDAO();
+        modelAndView.addObject("userDAO", userDAO);
         modelAndView.setViewName("registration");
         return modelAndView;
     }
 
     @PostMapping(value = "/registration")
-    public ModelAndView createUser(@Valid UserDAO userDAO, BindingResult bindingResult) {
+    public ModelAndView createUser(@Valid UserDAO userDAO, final BindingResult bindingResult) {
         ModelAndView modelAndView = new ModelAndView();
         UserDAO userExists = userService.findUserByUserName(userDAO.getUserName());
         if (userExists != null) {
             bindingResult.rejectValue("userName", "error.user", "There is already a user with the user name provided");
         }
+        System.out.println(bindingResult.hasErrors());
         if (bindingResult.hasErrors()) {
             modelAndView.setViewName("registration");
         } else {
             userService.saveUser(userDAO);
             modelAndView.addObject("successMessage", "User has been registered successfully");
-            modelAndView.addObject("user", new UserDAO());
+            modelAndView.addObject("userDAO", new UserDAO());
             modelAndView.setViewName("registration");
         }
         return modelAndView;
