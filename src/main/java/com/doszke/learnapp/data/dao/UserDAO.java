@@ -19,6 +19,7 @@ import java.util.Set;
 public class UserDAO implements Mappable {
 
     @Id
+    @Column(name = "user_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 

@@ -15,6 +15,7 @@ import javax.persistence.*;
 public class RoleDAO {
 
     @Id
+    @Column(name = "role_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
