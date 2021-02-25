@@ -16,22 +16,26 @@ public class CardCategoryDAO implements Mappable{
     public static final String REMOVE = "Xvw5pqCsJ8xX9soSOlwWFsFdfkf7s1";
 
     @Id
+    @Column(name = "category_id")
     @EqualsAndHashCode.Exclude
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-
-    public long getId(){
-        return id;
-    }
 
     @Column
     private String name;
 
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    @OneToMany(mappedBy = "category", fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "subject_id")
+    private SubjectDAO subject;
+
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "category")
     private List<CardDAO> cards;
 
+    //TODO remove this
     public void add(CardDAO card) {
         cards.add(card);
     }

@@ -35,7 +35,7 @@ public class UserDAO implements Mappable {
     private String email;
 
     @Column
-    @Size(min = 8, max = 20, message = "Your password needs to be at lest 5 characters long and cannot be longer than 20 characters. ")
+    @Size(min = 5, message = "Your password needs to be at lest 5 characters long. ")
     @NotBlank(message = "Password is required. ")
     private String password;
 
@@ -49,6 +49,9 @@ public class UserDAO implements Mappable {
     @ManyToMany(cascade = CascadeType.MERGE)
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<RoleDAO> roles;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    private Set<SubjectDAO> subjects;
 
 
     @Override

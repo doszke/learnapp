@@ -8,7 +8,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashSet;
 
 @Service
@@ -29,13 +28,15 @@ public class UserService {
     }
 
     public UserDAO findUserByUserName(String userName) {
-        return userRepository.test(userName).orElse(null);
+        return userRepository.getUserWithRoles(userName).orElse(null);
     }
 
     public UserDAO saveUser(UserDAO user){
+        System.out.println(user.getPassword());
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        System.out.println(user.getPassword());
         user.setActive(true);
-        RoleDAO role = roleRepository.findByRole("ADMIN").orElse(null);
+        RoleDAO role = roleRepository.findByRole("USER").orElse(null);
         if (role != null) {
             user.setRoles(new HashSet<RoleDAO>(Arrays.asList(role)));
             return userRepository.save(user);

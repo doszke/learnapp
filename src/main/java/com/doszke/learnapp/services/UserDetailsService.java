@@ -36,8 +36,8 @@ public class UserDetailsService implements org.springframework.security.core.use
     @Transactional
     protected List<GrantedAuthority> getUserAuthority(UserDAO user) {
         Hibernate.initialize(user.getRoles());
-        System.out.println(user.getRoles());
         Set<RoleDAO> userRoles = user.getRoles();
+        user.setActive(true);
         Set<GrantedAuthority> roles = new HashSet<GrantedAuthority>();
         for (RoleDAO role : userRoles) {
             roles.add(new SimpleGrantedAuthority(role.getRole()));

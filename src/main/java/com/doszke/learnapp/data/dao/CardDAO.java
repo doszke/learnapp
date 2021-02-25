@@ -15,6 +15,7 @@ public class CardDAO implements Mappable{
     public static final CardDAO EMPTY = new CardDAO();
 
     @Id
+    @Column(name = "card_id")
     @EqualsAndHashCode.Exclude
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
@@ -31,8 +32,8 @@ public class CardDAO implements Mappable{
 
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    @ManyToOne
-    @JoinColumn(name = "category_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id")
     private CardCategoryDAO category;
 
     @Override
